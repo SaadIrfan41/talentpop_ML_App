@@ -15,34 +15,36 @@ const Sidebar = () => {
     <div
       className={` ${
         access_token ? 'sticky' : 'hidden'
-      } h-screen bg-[#e4ffe7] flex flex-col  pt-8  gap-y-6  items-center`}
+      } h-screen bg-[#e4ffe7] flex  w-min  items-start pt-5 `}
     >
-      <Avatar className=' border-dashed border-[#018037] border-[3px] w-12 h-12'>
-        <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
-      <button
-        onClick={() => handleLogout()}
-        className='text-[#018037] flex justify-center hover:scale-110 duration-500'
-      >
-        <LogOut className=' w-9 h-9' />
-      </button>
-      <button
-        onClick={() =>
-          user?.role !== 'manager'
-            ? navigate('/candidate-dashboard')
-            : navigate('/admin-dashboard')
-        }
-        className=' hover:scale-110 duration-500'
-      >
-        <DashboardIcon />
-      </button>
-      <button
-        onClick={() => navigate('/analytics')}
-        className=' hover:scale-110 duration-500'
-      >
-        <AnalyticsIcon />
-      </button>
+      <div className='border-2 border-green-500 border-dashed rounded-full flex flex-col gap-y-4 items-center py-7 mx-2'>
+        <Avatar className=' border-dashed border-[#018037] border-[3px] w-12 h-12'>
+          <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <button
+          onClick={() => handleLogout()}
+          className='text-[#018037] flex justify-center hover:scale-110 duration-500'
+        >
+          <LogOut className=' w-9 h-9' />
+        </button>
+        <button
+          onClick={() =>
+            user?.role !== 'manager'
+              ? navigate('/candidate-dashboard')
+              : navigate('/admin-dashboard')
+          }
+          className=' hover:scale-110 duration-500'
+        >
+          <DashboardIcon />
+        </button>
+        <button
+          onClick={() => navigate('/analytics')}
+          className=' hover:scale-110 duration-500'
+        >
+          <AnalyticsIcon />
+        </button>
+      </div>
     </div>
   )
 }

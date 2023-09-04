@@ -162,7 +162,7 @@ const CandidateDashboard = () => {
         }}
         className='grid  grid-cols-3  overflow-hidden  '
       >
-        <section className=' pl-4 max-h-screen overflow-y-scroll no-scrollbar'>
+        <section className=' pl-2 pb-5 max-h-screen overflow-y-scroll no-scrollbar'>
           <div className='flex justify-between text-[#1C908A]  my-2 ml-2 '>
             <h1 className=' text-lg font-medium'>
               {data?.candidate_type} Quiz Questionnaire
@@ -173,13 +173,13 @@ const CandidateDashboard = () => {
                   ? 'bg-[#488143] text-white'
                   : data?.aggregate_score_ml >= 79
                   ? 'bg-[#CEFF7E]'
-                  : 'bg-red-400'
+                  : 'bg-red-400 text-white'
               } text-sm rounded-full w-12 h-12 border flex items-center justify-center border-[#A8A8A8]`}
             >
-              {data?.aggregate_score_ml?.toFixed(2)?.replace(/[.,]00$/, '')}
+              {data?.aggregate_score_ml?.toFixed(1)?.replace(/[.,]0$/, '')}
             </span>
           </div>
-          <div className='flex flex-col gap-y-3 text-sm mb-5 '>
+          <div className='flex flex-col gap-y-3 text-sm  '>
             {questions.map((question, index) => (
               <div key={index} className=' flex flex-col gap-y-6 '>
                 <span className=' font-medium mx-2 flex  gap-x-1'>
@@ -196,15 +196,15 @@ const CandidateDashboard = () => {
                     } absolute  items-center justify-center text-white h-10 w-10 rounded-full top-[-25px] right-0`}
                   >
                     {data[`question${index + 1}_result`]?.score
-                      .toFixed(2)
-                      .replace(/[.,]00$/, '')}
+                      .toFixed(1)
+                      .replace(/[.,]0$/, '')}
                   </span>
                 </div>
               </div>
             ))}
           </div>
         </section>
-        <section className='px-4 max-h-screen overflow-y-scroll no-scrollbar'>
+        <section className='px-4 pb-5 max-h-screen overflow-y-scroll no-scrollbar'>
           <div className='flex justify-between  items-center my-2  '>
             <h1 className=' text-lg font-medium text-[#1C908A]'>
               Candidate Application
@@ -824,7 +824,7 @@ const CandidateDashboard = () => {
                 type='text'
               />
             </div>
-            <div className=' flex flex-col gap-y-2 mb-5'>
+            <div className=' flex flex-col gap-y-2 '>
               <Label className='text-sm' htmlFor='Valid ID'>
                 Valid ID
               </Label>
@@ -838,7 +838,7 @@ const CandidateDashboard = () => {
             </div>
           </div>
         </section>
-        <section className=' px-2 flex flex-col gap-y-5 border-l-2 border-dashed border-indigo-300 opacity-84 max-h-screen overflow-y-scroll no-scrollbar'>
+        <section className=' px-2 pb-5 flex flex-col gap-y-5 border-l-2 border-dashed border-indigo-300 opacity-84 max-h-screen overflow-y-scroll no-scrollbar'>
           {' '}
           <div className='flex justify-between text-[#1C908A] items-center m-2 '>
             <h1 className=' text-lg font-medium w-full'>Grading Rubric</h1>
@@ -876,12 +876,12 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_1_grade'
                   id='question_1_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
-                  max={9}
+                  max={10}
                   value={question1_Result[0] === '' ? '0' : question1_Result[0]}
-                  onChange={(e) => handleInputChange(e, 0, 9)}
+                  onChange={(e) => handleInputChange(e, 0, 10)}
                 />
                 <span className='inline-flex items-center rounded-r-md border border-l-0 border-gray-300 px-2 text-gray-500 sm:text-sm'>
                   /10
@@ -900,12 +900,12 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_2_grade'
                   id='question_2_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7]  flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}
                   value={question2_Result[0] === '' ? '0' : question2_Result[0]}
-                  onChange={(e) => handleInputChange(e, 0, 9)}
+                  onChange={(e) => handleInputChange(e, 0, 10)}
                 />
                 <span className='inline-flex items-center text-center rounded-r-md border border-l-0 border-gray-300 px-2 text-gray-500 sm:text-sm'>
                   /10
@@ -924,12 +924,12 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_3_grade'
                   id='question_3_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}
                   value={question3_Result[0] === '' ? '0' : question3_Result[0]}
-                  onChange={(e) => handleInputChange(e, 0, 9)}
+                  onChange={(e) => handleInputChange(e, 0, 10)}
                 />
                 <span className='inline-flex items-center rounded-r-md border border-l-0 border-gray-300 px-2 text-gray-500 sm:text-sm'>
                   /10
@@ -957,10 +957,8 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_1_grade'
                   id='question_1_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
-                  min={0}
-                  max={9}
                   value={question1_Result[1] === '' ? '0' : question1_Result[1]}
                   onChange={(e) => handleInputChange(e, 1, 6)}
                 />
@@ -981,10 +979,8 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_2_grade'
                   id='question_2_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
-                  min={0}
-                  max={9}
                   value={question2_Result[1] === '' ? '0' : question2_Result[1]}
                   onChange={(e) => handleInputChange(e, 1, 6)}
                 />
@@ -1005,7 +1001,7 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_3_grade'
                   id='question_3_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7]  flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}
@@ -1037,10 +1033,8 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_1_grade'
                   id='question_1_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
-                  min={0}
-                  max={9}
                   value={question1_Result[2] === '' ? '0' : question1_Result[2]}
                   onChange={(e) => handleInputChange(e, 2, 4)}
                 />
@@ -1061,10 +1055,8 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_2_grade'
                   id='question_2_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none flex-1 bg-[#e4ffe7] rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
-                  min={0}
-                  max={9}
                   value={question2_Result[2] === '' ? '0' : question2_Result[2]}
                   onChange={(e) => handleInputChange(e, 2, 4)}
                 />
@@ -1085,7 +1077,7 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_3_grade'
                   id='question_3_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}
@@ -1162,7 +1154,7 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_4_grade'
                   id='question_4_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}
@@ -1186,7 +1178,7 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_5_grade'
                   id='question_5_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}
@@ -1219,7 +1211,7 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_4_grade'
                   id='question_4_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}
@@ -1243,7 +1235,7 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_5_grade'
                   id='question_5_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}
@@ -1276,10 +1268,8 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_4_grade'
                   id='question_4_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
-                  min={0}
-                  max={9}
                   value={question4_Result[2] === '' ? '0' : question4_Result[2]}
                   onChange={(e) => handleInputChange(e, 2, 4)}
                 />
@@ -1300,7 +1290,7 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_5_grade'
                   id='question_5_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}
@@ -1332,10 +1322,8 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_4_grade'
                   id='question_4_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
-                  min={0}
-                  max={9}
                   value={question4_Result[3] === '' ? '0' : question4_Result[3]}
                   onChange={(e) => handleInputChange(e, 3, 3)}
                 />
@@ -1356,7 +1344,7 @@ const CandidateDashboard = () => {
                   type='number'
                   name='question_5_grade'
                   id='question_5_grade'
-                  className='block w-full text-center focus:outline-none min-w-0 flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
+                  className=' w-11 text-center focus:outline-none bg-[#e4ffe7] flex-1 rounded-none rounded-l-md  border-0  text-gray-900  sm:text-sm sm:leading-6'
                   placeholder='0'
                   min={0}
                   max={9}

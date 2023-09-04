@@ -56,7 +56,12 @@ export const useQuestionResultStore = create<State & Actions>((set, get) => ({
   question4_Result: INITIAL_STATE.question4_Result,
   question5_Result: INITIAL_STATE.question5_Result,
   handleInputChange: (event, index, range) => {
-    const inputValue = parseInt(event.target.value[1] || '0')
+    const inputValue = parseInt(
+      parseInt(event.target.value) === range
+        ? range.toString()
+        : event.target.value[event.target.value.length - 1]
+    )
+    console.log(inputValue)
     if (!isNaN(inputValue) && inputValue >= 0 && inputValue <= range) {
       console.log(event.target.value)
       if (event.target.id === 'question_1_grade') {
@@ -81,16 +86,6 @@ export const useQuestionResultStore = create<State & Actions>((set, get) => ({
         get().setQuestion5_Result(updatedQuestion5Array)
       }
     }
-    // try {
-    //   return set(() => ({
-    //     isLoading: false,
-    //     error: null,
-    //     question1_Result: result,
-    //   }))
-    // } catch (error) {
-    //   if (error instanceof Error)
-    //     set({ error: error.message, isLoading: false })
-    // }
   },
   setQuestion1_Result: (result) => {
     try {

@@ -111,7 +111,7 @@ const Header = ({ refetch }: ChildProps) => {
   }
   return (
     <header
-      className=' flex gap-x-10 pr-12 '
+      className=' flex gap-x-10 w-full px-10 py-1'
       style={{
         backgroundImage: `linear-gradient(
           90deg,
@@ -122,51 +122,7 @@ const Header = ({ refetch }: ChildProps) => {
         )`,
       }}
     >
-      <div className='flex w-full  items-center'>
-        <div className='flex w-full gap-x-4 items-center justify-end'>
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              className={
-                'bg-gradient-to-r  focus:outline-none from-[#8800f3] from-0% to-red-500 to-100% text-white text-sm  flex items-center gap-x-2 rounded-sm p-1 px-2 '
-              }
-            >
-              <ChevronDown className='w-4 h-4' />
-              Failed
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel className=' text-sm'>
-                Reason for Failing
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {failingReasons.map((reason, index) => (
-                <DropdownMenuItem
-                  onClick={() => checkManualQuestionGrading()}
-                  className=' cursor-pointer'
-                  key={index}
-                >
-                  {reason}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <button
-            onClick={() => checkManualQuestionGrading()}
-            className={
-              'bg-gradient-to-r  focus:outline-none from-[#6bf4a4] from-0% to-[#34ceff] to-100% text-white text-sm  flex items-center gap-x-2 rounded-sm p-1 px-2 '
-            }
-          >
-            Passed
-          </button>
-          <Progress
-            value={(data?.graded / data?.assigned) * 100}
-            className=' w-96 bg-gray-400 h-2'
-          />
-          <span className=' text-[#1ea656] font-semibold text-sm'>
-            {data?.graded}/{data?.assigned}
-          </span>
-        </div>
-      </div>
-      <div className=' flex items-center'>
+      <div className=' flex items-center w-full'>
         <button
           onClick={() => {
             setPrevApplicant(),
@@ -187,6 +143,50 @@ const Header = ({ refetch }: ChildProps) => {
           }}
         >
           <ChevronsRight className=' w-8 h-8 text-purple-500' />
+        </button>
+      </div>
+      <div className='flex items-center gap-x-4 w-full'>
+        <Progress
+          value={(data?.graded / data?.assigned) * 100}
+          className=' w-96 bg-gray-400 h-2'
+        />
+        <span className=' text-[#1ea656] font-semibold text-sm'>
+          {data?.graded}/{data?.assigned}
+        </span>
+      </div>
+      <div className='flex w-full gap-x-4 items-center justify-end'>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className={
+              'bg-gradient-to-r  focus:outline-none from-[#8800f3] from-0% to-red-500 to-100% text-white text-sm  flex items-center gap-x-2 rounded-sm p-1 px-2 '
+            }
+          >
+            <ChevronDown className='w-4 h-4' />
+            Failed
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel className=' text-sm'>
+              Reason for Failing
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {failingReasons.map((reason, index) => (
+              <DropdownMenuItem
+                onClick={() => checkManualQuestionGrading()}
+                className=' cursor-pointer'
+                key={index}
+              >
+                {reason}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <button
+          onClick={() => checkManualQuestionGrading()}
+          className={
+            'bg-gradient-to-r  focus:outline-none from-[#6bf4a4] from-0% to-[#34ceff] to-100% text-white text-sm  flex items-center gap-x-2 rounded-sm p-1 px-2 '
+          }
+        >
+          Passed
         </button>
       </div>
     </header>

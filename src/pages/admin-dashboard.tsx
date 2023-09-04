@@ -24,7 +24,7 @@ const AdminDashboard = () => {
       className='w-full max-h-screen overflow-hidden'
     >
       <AdminHeader />
-      <div className='px-2'>
+      <div className='pl-2 pr-5'>
         <UsersTable />
       </div>
     </div>
