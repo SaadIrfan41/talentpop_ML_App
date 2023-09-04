@@ -114,7 +114,7 @@ export function UsersTable() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
-  const { data, isLoading, error, refetch, isFetching } = useQuery({
+  const { data, isLoading, error, isFetching } = useQuery({
     queryKey: ['recruiters-data'],
     queryFn: () => getUsersData(),
   })
