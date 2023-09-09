@@ -44,6 +44,9 @@ type Users = {
   assigned: number
   remaining: number
   graded: number
+  // remaining_cs: number
+  // remaining_cga: number
+  // remaining_aga: number
 }
 
 const columns: ColumnDef<Users>[] = [
@@ -59,7 +62,7 @@ const columns: ColumnDef<Users>[] = [
     header: ({ column }) => {
       return (
         <div
-          className='flex cursor-pointer items-center  hover:stroke-slate-200'
+          className='flex cursor-pointer items-center justify-center  hover:stroke-slate-200'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Email
@@ -97,14 +100,48 @@ const columns: ColumnDef<Users>[] = [
     ),
   },
   {
-    accessorKey: 'remaining',
-    header: 'Remaining',
+    accessorKey: 'remaining_cs',
+    header: 'Remaining CS',
     cell: ({ row }) => (
-      <div className='  font-medium capitalize '>
+      <div className='  font-medium capitalize text-center'>
         {row.getValue('remaining')}
       </div>
     ),
   },
+  {
+    accessorKey: 'remaining_cga',
+    header: 'Remaining CGA',
+    cell: ({ row }) => (
+      <div className='  font-medium capitalize text-center '>
+        {row.getValue('remaining')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'remaining',
+    header: 'Remaining AGA',
+    cell: ({ row }) => (
+      <div className='  font-medium capitalize text-center '>
+        {row.getValue('remaining')}
+      </div>
+    ),
+  },
+  // {
+
+  //   header: 'Remaining',
+  //   columns: [
+
+  //   ],
+  // },
+  // {
+  //   accessorKey: 'remaining',
+  //   header: 'Remaining',
+  //   cell: ({ row }) => (
+  //     <div className='  font-medium capitalize '>
+  //       {row.getValue('remaining')}
+  //     </div>
+  //   ),
+  // },
 ]
 
 export function UsersTable() {
@@ -181,13 +218,13 @@ export function UsersTable() {
 
   return (
     <div className=' w-full p-5 rounded-md border border-dashed border-green-500 '>
-      <Table className=' '>
-        <TableHeader className=''>
+      <Table className=' text-center align-middle '>
+        <TableHeader className=' text-center align-middle'>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className=''>
                     {header.isPlaceholder
                       ? null
                       : flexRender(

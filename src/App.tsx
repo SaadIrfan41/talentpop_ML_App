@@ -7,7 +7,7 @@ const HomePage = () => {
   return user?.role === 'manager' ? (
     <Navigate to='/admin-dashboard' />
   ) : (
-    <Navigate to='/candidate-dashboard' />
+    <Navigate to='/candidate-dashboard/CS' />
   )
 }
 

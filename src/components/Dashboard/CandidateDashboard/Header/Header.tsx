@@ -1,19 +1,21 @@
 import { useAuthStore } from '@/store/useAuthStore'
 import { useQuery } from '@tanstack/react-query'
 import { SheetIcon } from '@/lib/Icons'
-import { failingReasons } from '@/components/StaticData/FailingReason'
-import { ChevronDown, ChevronsLeft, ChevronsRight } from 'lucide-react'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+// import { failingReasons } from '@/components/StaticData/FailingReason'
+import { ChevronsLeft, ChevronsRight } from 'lucide-react'
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuLabel,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from '@/components/ui/dropdown-menu'
 import { Progress } from '@/components/ui/progress'
 import { useQuestionResultStore } from '@/store/useQuestionResultStore'
 import Loading from './Loading'
+import { FailCandidateButton } from './FailCandidateButton'
+import { CandidatePassButton } from './CandidatepassButton'
 
 interface ChildProps {
   refetch: () => Promise<any> // Define the prop type for the refetch function
@@ -22,14 +24,14 @@ interface ChildProps {
 const Header = ({ refetch }: ChildProps) => {
   const { access_token } = useAuthStore()
   const {
-    question1_Result,
-    question2_Result,
-    question3_Result,
-    question4_Result,
-    question5_Result,
+    // question1_Result,
+    // question2_Result,
+    // question3_Result,
+    // question4_Result,
+    // question5_Result,
     setNextApplicant,
     setPrevApplicant,
-    candidate_Type,
+    // candidate_Type,
   } = useQuestionResultStore()
 
   const { data, isLoading, error } = useQuery({
@@ -73,42 +75,42 @@ const Header = ({ refetch }: ChildProps) => {
   }
   // console.log(data)
 
-  const checkManualQuestionGrading = () => {
-    let allQuestions
-    if (candidate_Type == 'CS') {
-      // Combine all question arrays into one array
-      allQuestions = [
-        ...question1_Result,
-        ...question2_Result,
-        ...question3_Result,
-        ...question4_Result,
-        ...question5_Result,
-      ]
+  // const checkManualQuestionGrading = () => {
+  //   let allQuestions
+  //   if (candidate_Type == 'CS') {
+  //     // Combine all question arrays into one array
+  //     allQuestions = [
+  //       ...question1_Result,
+  //       ...question2_Result,
+  //       ...question3_Result,
+  //       ...question4_Result,
+  //       ...question5_Result,
+  //     ]
 
-      // Check if any value is equal to 0
-      if (allQuestions.some((value) => parseFloat(value) === 0)) {
-        // At least one value is equal to 0, send old values
-        alert('ML VAlues will be pushed')
-      } else {
-        // All values are greater than 0, send new values
-        alert('NEW VALUES FOR CS WILL BE PUSHED')
-      }
-    } else {
-      allQuestions = [
-        ...question1_Result,
-        ...question2_Result,
-        ...question3_Result,
-      ]
-      // Check if any value is equal to 0
-      if (allQuestions.some((value) => parseFloat(value) === 0)) {
-        // At least one value is equal to 0, send old values
-        alert('ML VAlues will be pushed')
-      } else {
-        // All values are greater than 0, send new values
-        alert('NEW VALUES FOR !CS WILL BE PUSHED')
-      }
-    }
-  }
+  //     // Check if any value is equal to 0
+  //     if (allQuestions.some((value) => parseFloat(value) === 0)) {
+  //       // At least one value is equal to 0, send old values
+  //       alert('ML VAlues will be pushed')
+  //     } else {
+  //       // All values are greater than 0, send new values
+  //       alert('NEW VALUES FOR CS WILL BE PUSHED')
+  //     }
+  //   } else {
+  //     allQuestions = [
+  //       ...question1_Result,
+  //       ...question2_Result,
+  //       ...question3_Result,
+  //     ]
+  //     // Check if any value is equal to 0
+  //     if (allQuestions.some((value) => parseFloat(value) === 0)) {
+  //       // At least one value is equal to 0, send old values
+  //       alert('ML VAlues will be pushed')
+  //     } else {
+  //       // All values are greater than 0, send new values
+  //       alert('NEW VALUES FOR !CS WILL BE PUSHED')
+  //     }
+  //   }
+  // }
   return (
     <header
       className=' flex gap-x-10 w-full px-10 py-1'
@@ -145,6 +147,7 @@ const Header = ({ refetch }: ChildProps) => {
           <ChevronsRight className=' w-8 h-8 text-purple-500' />
         </button>
       </div>
+
       <div className='flex items-center gap-x-4 w-full'>
         <Progress
           value={(data?.graded / data?.assigned) * 100}
@@ -155,7 +158,9 @@ const Header = ({ refetch }: ChildProps) => {
         </span>
       </div>
       <div className='flex w-full gap-x-4 items-center justify-end'>
-        <DropdownMenu>
+        <FailCandidateButton />
+        <CandidatePassButton />
+        {/* <DropdownMenu>
           <DropdownMenuTrigger
             className={
               'bg-gradient-to-r  focus:outline-none from-[#8800f3] from-0% to-red-500 to-100% text-white text-sm  flex items-center gap-x-2 rounded-sm p-1 px-2 '
@@ -179,15 +184,15 @@ const Header = ({ refetch }: ChildProps) => {
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
-        </DropdownMenu>
-        <button
+        </DropdownMenu> */}
+        {/* <button
           onClick={() => checkManualQuestionGrading()}
           className={
             'bg-gradient-to-r  focus:outline-none from-[#6bf4a4] from-0% to-[#34ceff] to-100% text-white text-sm  flex items-center gap-x-2 rounded-sm p-1 px-2 '
           }
         >
           Passed
-        </button>
+        </button> */}
       </div>
     </header>
   )

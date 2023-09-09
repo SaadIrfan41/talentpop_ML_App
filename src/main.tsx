@@ -9,10 +9,13 @@ import { Toaster } from 'react-hot-toast'
 import ProtectedRoute from './components/AuthRoute/ProtectedRoute.tsx'
 import PublicRoute from './components/AuthRoute/PublicRoute.tsx'
 import HomePage from './App.tsx'
-import CandidateDashboard from '@/pages/candidate-dashboard.tsx'
+// import CandidateDashboard from '@/pages/candidate-dashboard.tsx'
 import AppLayout from './components/AppLayout.tsx'
 import Analytics from './pages/Analytics.tsx'
 import AdminDashboard from './pages/admin-dashboard.tsx'
+import CandidateTypeCA from './components/Dashboard/CandidateDashboard/CS/index.tsx'
+import CandidateTypeCGA from './components/Dashboard/CandidateDashboard/CGA/index.tsx'
+import CandidateTypeAGA from './components/Dashboard/CandidateDashboard/AGA/index.tsx'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,10 +40,28 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: '/candidate-dashboard',
+        path: '/candidate-dashboard/CS',
         element: (
           <ProtectedRoute>
-            <CandidateDashboard />
+            <CandidateTypeCA />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/candidate-dashboard/CGA',
+        element: (
+          <ProtectedRoute>
+            <CandidateTypeCGA />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/candidate-dashboard/AGA',
+        element: (
+          <ProtectedRoute>
+            <CandidateTypeAGA />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,

@@ -19,7 +19,10 @@ const Sidebar = () => {
     >
       <div className='border-2 border-green-500 border-dashed rounded-full flex flex-col gap-y-4 items-center py-7 mx-2'>
         <Avatar className=' border-dashed border-[#018037] border-[3px] w-12 h-12'>
-          <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+          <AvatarImage
+            src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${user?.user_name}&scale=160&radius=50`}
+            alt='@shadcn'
+          />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <button
@@ -31,7 +34,27 @@ const Sidebar = () => {
         <button
           onClick={() =>
             user?.role !== 'manager'
-              ? navigate('/candidate-dashboard')
+              ? navigate('/candidate-dashboard/CS')
+              : navigate('/admin-dashboard')
+          }
+          className=' hover:scale-110 duration-500'
+        >
+          <DashboardIcon />
+        </button>
+        <button
+          onClick={() =>
+            user?.role !== 'manager'
+              ? navigate('/candidate-dashboard/AGA')
+              : navigate('/admin-dashboard')
+          }
+          className=' hover:scale-110 duration-500'
+        >
+          <DashboardIcon />
+        </button>
+        <button
+          onClick={() =>
+            user?.role !== 'manager'
+              ? navigate('/candidate-dashboard/CGA')
               : navigate('/admin-dashboard')
           }
           className=' hover:scale-110 duration-500'
