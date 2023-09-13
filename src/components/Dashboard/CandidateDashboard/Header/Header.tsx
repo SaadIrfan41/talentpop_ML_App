@@ -2,7 +2,7 @@ import { useAuthStore } from '@/store/useAuthStore'
 import { useQuery } from '@tanstack/react-query'
 import { SheetIcon } from '@/lib/Icons'
 // import { failingReasons } from '@/components/StaticData/FailingReason'
-import { ChevronsLeft, ChevronsRight } from 'lucide-react'
+import { ArrowUpDown, ChevronsLeft, ChevronsRight } from 'lucide-react'
 // import {
 //   DropdownMenu,
 //   DropdownMenuContent,
@@ -16,6 +16,12 @@ import { useQuestionResultStore } from '@/store/useQuestionResultStore'
 import Loading from './Loading'
 import { FailCandidateButton } from './FailCandidateButton'
 import { CandidatePassButton } from './CandidatepassButton'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 interface ChildProps {
   refetch: () => Promise<any> // Define the prop type for the refetch function
@@ -124,39 +130,61 @@ const Header = ({ refetch }: ChildProps) => {
         )`,
       }}
     >
-      <div className=' flex items-center w-full'>
-        <button
-          onClick={() => {
-            setPrevApplicant(),
-              setTimeout(() => {
-                refetch()
-              }, 0)
-          }}
-        >
-          <ChevronsLeft className=' w-8 h-8 text-red-500' />
-        </button>
-        <SheetIcon />
-        <button
-          onClick={() => {
-            setNextApplicant(),
-              setTimeout(() => {
-                refetch()
-              }, 0)
-          }}
-        >
-          <ChevronsRight className=' w-8 h-8 text-purple-500' />
-        </button>
+      <div className=' flex items-center w-full gap-x-4'>
+        <div className='flex items-center'>
+          <TooltipProvider delayDuration={400}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => {
+                    setPrevApplicant(),
+                      setTimeout(() => {
+                        refetch()
+                      }, 0)
+                  }}
+                >
+                  <ChevronsLeft className=' w-8 h-8 text-red-500' />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className=' bg-red-400 text-white'>
+                <p>Previous</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <SheetIcon />
+          <TooltipProvider delayDuration={400}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => {
+                    setNextApplicant(),
+                      setTimeout(() => {
+                        refetch()
+                      }, 0)
+                  }}
+                >
+                  <ChevronsRight className=' w-8 h-8 text-purple-500' />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className=' bg-purple-400 text-white'>
+                <p>Next</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+        <ArrowUpDown className='w-8 h-8 text-[#1ea656]  cursor-pointer' />
+        <div className='flex items-center gap-x-4 w-full '>
+          <Progress
+            value={(data?.graded / data?.assigned) * 100}
+            className=' w-96 bg-gray-400 h-2'
+          />
+          <span className=' text-[#1ea656] font-semibold text-sm'>
+            {data?.graded}/{data?.assigned}
+          </span>
+        </div>
       </div>
 
-      <div className='flex items-center gap-x-4 w-full'>
-        <Progress
-          value={(data?.graded / data?.assigned) * 100}
-          className=' w-96 bg-gray-400 h-2'
-        />
-        <span className=' text-[#1ea656] font-semibold text-sm'>
-          {data?.graded}/{data?.assigned}
-        </span>
-      </div>
       <div className='flex w-full gap-x-4 items-center justify-end'>
         <FailCandidateButton />
         <CandidatePassButton />

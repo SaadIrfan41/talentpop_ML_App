@@ -9,9 +9,15 @@ interface State {
   question3_Result: string[]
   question4_Result: string[]
   question5_Result: string[]
+  question1_ML_Result: number
+  question2_ML_Result: number
+  question3_ML_Result: number
+  question4_ML_Result: number
+  question5_ML_Result: number
   nextApplication: string
   prevApplication: string
   candidate_Type: string | null
+  candidate_id: number | null
 }
 
 interface Actions {
@@ -20,6 +26,11 @@ interface Actions {
   setQuestion3_Result: (result: string[]) => void
   setQuestion4_Result: (result: string[]) => void
   setQuestion5_Result: (result: string[]) => void
+  setQuestion1_ML_Result: (result: number) => void
+  setQuestion2_ML_Result: (result: number) => void
+  setQuestion3_ML_Result: (result: number) => void
+  setQuestion4_ML_Result: (result: number) => void
+  setQuestion5_ML_Result: (result: number) => void
   handleInputChange: (
     event: ChangeEvent<HTMLInputElement>,
     index: number,
@@ -29,6 +40,7 @@ interface Actions {
   setPrevApplicant: () => void
   resetApplicant: () => void
   setCandidateType: (type: string) => void
+  setCandidateID: (id: number) => void
 }
 
 const INITIAL_STATE: State = {
@@ -39,15 +51,22 @@ const INITIAL_STATE: State = {
   question3_Result: ['0', '0', '0'],
   question4_Result: ['0', '0', '0', '0'],
   question5_Result: ['0', '0', '0', '0'],
+  question1_ML_Result: 0,
+  question2_ML_Result: 0,
+  question3_ML_Result: 0,
+  question4_ML_Result: 0,
+  question5_ML_Result: 0,
   nextApplication: 'false',
   prevApplication: 'false',
   candidate_Type: null,
+  candidate_id: null,
 }
 
 export const useQuestionResultStore = create<State & Actions>((set, get) => ({
   isLoading: INITIAL_STATE.isLoading,
   error: INITIAL_STATE.error,
   candidate_Type: INITIAL_STATE.candidate_Type,
+  candidate_id: INITIAL_STATE.candidate_id,
   nextApplication: INITIAL_STATE.nextApplication,
   prevApplication: INITIAL_STATE.prevApplication,
   question1_Result: INITIAL_STATE.question1_Result,
@@ -55,15 +74,20 @@ export const useQuestionResultStore = create<State & Actions>((set, get) => ({
   question3_Result: INITIAL_STATE.question3_Result,
   question4_Result: INITIAL_STATE.question4_Result,
   question5_Result: INITIAL_STATE.question5_Result,
+  question1_ML_Result: INITIAL_STATE.question1_ML_Result,
+  question2_ML_Result: INITIAL_STATE.question2_ML_Result,
+  question3_ML_Result: INITIAL_STATE.question3_ML_Result,
+  question4_ML_Result: INITIAL_STATE.question4_ML_Result,
+  question5_ML_Result: INITIAL_STATE.question5_ML_Result,
   handleInputChange: (event, index, range) => {
     const inputValue = parseInt(
       parseInt(event.target.value) === range
         ? range.toString()
         : event.target.value[event.target.value.length - 1]
     )
-    console.log(inputValue)
+    // console.log(inputValue)
     if (!isNaN(inputValue) && inputValue >= 0 && inputValue <= range) {
-      console.log(event.target.value)
+      // console.log(event.target.value)
       if (event.target.id === 'question_1_grade') {
         const updatedQuestion1Array = [...get().question1_Result]
         updatedQuestion1Array[index] = inputValue.toString()
@@ -87,6 +111,67 @@ export const useQuestionResultStore = create<State & Actions>((set, get) => ({
       }
     }
   },
+  setQuestion1_ML_Result: (result) => {
+    try {
+      return set(() => ({
+        isLoading: false,
+        error: null,
+        question1_ML_Result: result,
+      }))
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message, isLoading: false })
+    }
+  },
+  setQuestion2_ML_Result: (result) => {
+    try {
+      return set(() => ({
+        isLoading: false,
+        error: null,
+        question2_ML_Result: result,
+      }))
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message, isLoading: false })
+    }
+  },
+  setQuestion3_ML_Result: (result) => {
+    try {
+      return set(() => ({
+        isLoading: false,
+        error: null,
+        question3_ML_Result: result,
+      }))
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message, isLoading: false })
+    }
+  },
+  setQuestion4_ML_Result: (result) => {
+    try {
+      return set(() => ({
+        isLoading: false,
+        error: null,
+        question4_ML_Result: result,
+      }))
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message, isLoading: false })
+    }
+  },
+  setQuestion5_ML_Result: (result) => {
+    try {
+      return set(() => ({
+        isLoading: false,
+        error: null,
+        question5_ML_Result: result,
+      }))
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message, isLoading: false })
+    }
+  },
+
   setQuestion1_Result: (result) => {
     try {
       return set(() => ({
@@ -159,6 +244,18 @@ export const useQuestionResultStore = create<State & Actions>((set, get) => ({
         set({ error: error.message, isLoading: false })
     }
   },
+  setCandidateID: (id) => {
+    try {
+      return set(() => ({
+        isLoading: false,
+        error: null,
+        candidate_id: id,
+      }))
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message, isLoading: false })
+    }
+  },
   setNextApplicant: () => {
     try {
       return set(() => ({
@@ -166,6 +263,11 @@ export const useQuestionResultStore = create<State & Actions>((set, get) => ({
         error: null,
         nextApplication: 'true',
         prevApplication: 'false',
+        question1_Result: INITIAL_STATE.question1_Result,
+        question2_Result: INITIAL_STATE.question2_Result,
+        question3_Result: INITIAL_STATE.question3_Result,
+        question4_Result: INITIAL_STATE.question4_Result,
+        question5_Result: INITIAL_STATE.question5_Result,
       }))
     } catch (error) {
       if (error instanceof Error)
@@ -179,6 +281,11 @@ export const useQuestionResultStore = create<State & Actions>((set, get) => ({
         error: null,
         nextApplication: 'false',
         prevApplication: 'true',
+        question1_Result: INITIAL_STATE.question1_Result,
+        question2_Result: INITIAL_STATE.question2_Result,
+        question3_Result: INITIAL_STATE.question3_Result,
+        question4_Result: INITIAL_STATE.question4_Result,
+        question5_Result: INITIAL_STATE.question5_Result,
       }))
     } catch (error) {
       if (error instanceof Error)

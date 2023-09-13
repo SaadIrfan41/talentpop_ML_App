@@ -1,8 +1,14 @@
 import { useAuthStore } from '@/store/useAuthStore'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { LogOut } from 'lucide-react'
-import { AnalyticsIcon, DashboardIcon } from '@/lib/Icons'
+import { AnalyticsIcon } from '@/lib/Icons'
 import { useNavigate } from 'react-router-dom'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 const Sidebar = () => {
   const { access_token, logout, user } = useAuthStore()
 
@@ -15,7 +21,7 @@ const Sidebar = () => {
     <div
       className={` ${
         access_token ? 'sticky' : 'hidden'
-      } h-screen bg-[#e4ffe7] flex  w-min  items-start pt-5 `}
+      } h-auto bg-[#e4ffe7] flex  w-min  items-start pt-5 `}
     >
       <div className='border-2 border-green-500 border-dashed rounded-full flex flex-col gap-y-4 items-center py-7 mx-2'>
         <Avatar className=' border-dashed border-[#018037] border-[3px] w-12 h-12'>
@@ -25,21 +31,16 @@ const Sidebar = () => {
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <button
-          onClick={() => handleLogout()}
-          className='text-[#018037] flex justify-center hover:scale-110 duration-500'
-        >
-          <LogOut className=' w-9 h-9' />
-        </button>
+
         <button
           onClick={() =>
             user?.role !== 'manager'
               ? navigate('/candidate-dashboard/CS')
               : navigate('/admin-dashboard')
           }
-          className=' hover:scale-110 duration-500'
+          className=' hover:scale-110 duration-500 rounded-full border-dashed border-[#018037] border-[3px] w-12 h-12'
         >
-          <DashboardIcon />
+          CS
         </button>
         <button
           onClick={() =>
@@ -47,9 +48,9 @@ const Sidebar = () => {
               ? navigate('/candidate-dashboard/AGA')
               : navigate('/admin-dashboard')
           }
-          className=' hover:scale-110 duration-500'
+          className='  hover:scale-110 duration-500 rounded-full border-dashed border-[#018037] border-[3px] w-12 h-12'
         >
-          <DashboardIcon />
+          AGA
         </button>
         <button
           onClick={() =>
@@ -57,9 +58,9 @@ const Sidebar = () => {
               ? navigate('/candidate-dashboard/CGA')
               : navigate('/admin-dashboard')
           }
-          className=' hover:scale-110 duration-500'
+          className='  hover:scale-110 duration-500 rounded-full border-dashed border-[#018037] border-[3px] w-12 h-12'
         >
-          <DashboardIcon />
+          CGA
         </button>
         <button
           onClick={() => navigate('/analytics')}
@@ -67,6 +68,21 @@ const Sidebar = () => {
         >
           <AnalyticsIcon />
         </button>
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={() => handleLogout()}
+                className='text-[#018037] flex justify-center hover:scale-110 duration-500'
+              >
+                <LogOut className=' w-9 h-9' />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className=' bg-red-400 text-white'>
+              <p>Log Out</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   )

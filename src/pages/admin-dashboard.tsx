@@ -21,7 +21,7 @@ const AdminDashboard = () => {
     rgba(158, 0, 255, 0.05) 100%
   )`,
       }}
-      className='w-full max-h-screen overflow-hidden'
+      className='w-full  '
     >
       <AdminHeader />
       <div className='pl-2 pr-5'>

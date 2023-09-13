@@ -24,25 +24,33 @@ import GradingRubicSectionCS from './GradingRubicSectionCS'
 const CandidateTypeCA = () => {
   const { access_token } = useAuthStore()
 
-  const [canID, setcanID] = useState(null)
-
-  const { nextApplication, prevApplication, setCandidateType } =
-    useQuestionResultStore()
+  const {
+    nextApplication,
+    prevApplication,
+    setCandidateType,
+    setCandidateID,
+    setQuestion1_ML_Result,
+    setQuestion2_ML_Result,
+    setQuestion3_ML_Result,
+    setQuestion4_ML_Result,
+    setQuestion5_ML_Result,
+    candidate_id,
+  } = useQuestionResultStore()
   const [questions, setquestions] = useState([''])
 
   const { data, isLoading, error, refetch, isFetching } = useQuery({
     queryKey: ['candidate-data'],
     queryFn: () => getCandidateData(),
   })
-  console.log('NEXT', nextApplication, 'PREV', prevApplication)
+  // console.log('NEXT', nextApplication, 'PREV', prevApplication)
 
   const getCandidateData = async () => {
-    if (canID) {
+    if (candidate_id) {
       try {
         const res = await fetch(
           `${
             import.meta.env.VITE_BACKEND_BASE_URL
-          }/candidate?candidate_id=${canID}&next_candidate=${nextApplication}&prev_candidate=${prevApplication}`,
+          }/candidate?candidate_id=${candidate_id}&next_candidate=${nextApplication}&prev_candidate=${prevApplication}`,
           {
             headers: {
               accept: 'application/json',
@@ -86,7 +94,23 @@ const CandidateTypeCA = () => {
   }
   useEffect(() => {
     if (data) {
-      setcanID(data?.id)
+      setCandidateID(data?.id)
+      if (data.question1_result) {
+        setQuestion1_ML_Result(data.question1_result.score)
+      }
+      if (data.question2_result) {
+        setQuestion2_ML_Result(data.question2_result.score)
+      }
+      if (data.question3_result) {
+        setQuestion3_ML_Result(data.question3_result.score)
+      }
+      if (data.question4_result) {
+        setQuestion4_ML_Result(data.question4_result.score)
+      }
+      if (data.question5_result) {
+        setQuestion5_ML_Result(data.question5_result.score)
+      }
+
       if (data?.candidate_type) {
         setCandidateType(data?.candidate_type)
         if (data?.candidate_type === 'CS') {
@@ -98,7 +122,16 @@ const CandidateTypeCA = () => {
         }
       }
     }
-  }, [data])
+  }, [
+    data,
+    setCandidateID,
+    setCandidateType,
+    setQuestion1_ML_Result,
+    setQuestion2_ML_Result,
+    setQuestion3_ML_Result,
+    setQuestion4_ML_Result,
+    setQuestion5_ML_Result,
+  ])
 
   if (isLoading || isFetching)
     return (
@@ -119,7 +152,7 @@ const CandidateTypeCA = () => {
     return <p className=' text-base text-[#69C920]'> No Application Found</p>
   }
   // console.log(data.id)
-
+  // console.log(data)
   // console.log(data.candidate_type)
 
   return (
