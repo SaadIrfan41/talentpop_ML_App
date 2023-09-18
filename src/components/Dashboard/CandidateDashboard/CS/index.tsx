@@ -150,7 +150,12 @@ const CandidateTypeCA = () => {
     return <p className=' text-base text-[#69C920]'>{data.message}</p>
   }
   if (data?.detail == 'No Candidate Found') {
-    return <p className=' text-base text-[#69C920]'> No Application Found</p>
+    return (
+      <p className='  grid place-items-center font-semibold underline text-[#69C920] tracking-widest w-full text-4xl'>
+        {' '}
+        No Candidate Found
+      </p>
+    )
   }
   // console.log(data.id)
   // console.log(data)
