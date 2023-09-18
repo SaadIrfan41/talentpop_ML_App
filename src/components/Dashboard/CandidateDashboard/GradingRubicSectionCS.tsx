@@ -1,5 +1,5 @@
 import { useQuestionResultStore } from '@/store/useQuestionResultStore'
-import TriangleShape from '../TriangleShape'
+import TriangleShape from './TriangleShape'
 
 const getQuestionResult = (score: string[]) => {
   const sum = score.reduce((acc, val) => acc + parseFloat(val), 0)
@@ -12,7 +12,7 @@ const getQuestionResult = (score: string[]) => {
   return result?.toFixed(1).replace(/[.,]0$/, '')
 }
 
-const GradingRubicSectionCGA = () => {
+const GradingRubicSectionCS = () => {
   const {
     question1_Result,
     question2_Result,
@@ -22,8 +22,8 @@ const GradingRubicSectionCGA = () => {
     setQuestion1_Result,
     setQuestion2_Result,
     setQuestion3_Result,
-    // setQuestion4_Result,
-    // setQuestion5_Result,
+    setQuestion4_Result,
+    setQuestion5_Result,
     handleInputChange,
   } = useQuestionResultStore()
   return (
@@ -312,7 +312,7 @@ const GradingRubicSectionCGA = () => {
             </span>
           </span>
         </div>
-        {/* <div className='w-full flex justify-evenly'>
+        <div className='w-full flex justify-evenly'>
           <div className=' w-16  h-16  '>
             {' '}
             <TriangleShape direction='up' text='Q4' />
@@ -321,9 +321,9 @@ const GradingRubicSectionCGA = () => {
             {' '}
             <TriangleShape direction='down' text='Q5' />
           </div>
-        </div> */}
+        </div>
       </div>
-      {/* <div className='grid grid-cols-2  items-center'>
+      <div className='grid grid-cols-2  items-center'>
         <span className=' text-sm text-red-500 font-medium'>
           Grammar/Sentence Structure (Capitalization/Spelling/Punctuation, Count
           all the errors and subtract from 7 (-0.5pts for each, if repeat of
@@ -545,9 +545,9 @@ const GradingRubicSectionCGA = () => {
             </span>
           </div>
         </div>
-      </div> */}
+      </div>
     </section>
   )
 }
 
-export default GradingRubicSectionCGA
+export default GradingRubicSectionCS

@@ -20,30 +20,33 @@ import { useQuestionResultStore } from '@/store/useQuestionResultStore'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 // import GradingRubicSectionAGA from './GradingRubicSectionAGA'
-import GradingRubicSectionCS from '../CS/GradingRubicSectionCS'
+import GradingRubicSectionCS from '../GradingRubicSectionCS'
 
 const CandidateTypeAGA = () => {
   const { access_token } = useAuthStore()
 
-  const [canID, setcanID] = useState(null)
-
-  const { nextApplication, prevApplication, setCandidateType } =
-    useQuestionResultStore()
+  const {
+    nextApplication,
+    prevApplication,
+    setCandidateType,
+    candidate_id_aga,
+    ascApplication,
+    setCandidateId_AGA,
+  } = useQuestionResultStore()
   const [questions, setquestions] = useState([''])
 
   const { data, isLoading, error, refetch, isFetching } = useQuery({
-    queryKey: ['candidate-data'],
+    queryKey: ['candidate-data-aga'],
     queryFn: () => getCandidateData(),
   })
-  console.log('NEXT', nextApplication, 'PREV', prevApplication)
 
   const getCandidateData = async () => {
-    if (canID) {
+    if (candidate_id_aga) {
       try {
         const res = await fetch(
           `${
             import.meta.env.VITE_BACKEND_BASE_URL
-          }/candidate?candidate_id=${canID}&next_candidate=${nextApplication}&prev_candidate=${prevApplication}`,
+          }/candidate_aga?candidate_id=${candidate_id_aga}&next_candidate=${nextApplication}&prev_candidate=${prevApplication}&asc=${ascApplication}`,
           {
             headers: {
               accept: 'application/json',
@@ -52,7 +55,6 @@ const CandidateTypeAGA = () => {
           }
         )
         const candidate = await res.json()
-        console.log('NEW CANDIDATE', candidate)
 
         if (res.status === 401) {
           return { message: 'Not authenticated' }
@@ -67,7 +69,7 @@ const CandidateTypeAGA = () => {
       const res = await fetch(
         `${
           import.meta.env.VITE_BACKEND_BASE_URL
-        }/candidate?next_candidate=${nextApplication}&prev_candidate=${prevApplication}`,
+        }/candidate_aga?next_candidate=${nextApplication}&prev_candidate=${prevApplication}&asc=${ascApplication}`,
         {
           headers: {
             accept: 'application/json',
@@ -87,7 +89,7 @@ const CandidateTypeAGA = () => {
   }
   useEffect(() => {
     if (data) {
-      setcanID(data?.id)
+      setCandidateId_AGA(data?.id)
       if (data?.candidate_type) {
         setCandidateType(data?.candidate_type)
         if (data?.candidate_type === 'CS') {
@@ -117,7 +119,12 @@ const CandidateTypeAGA = () => {
     return <p className=' text-base text-[#69C920]'>{data.message}</p>
   }
   if (data?.detail == 'No Candidate Found') {
-    return <p className=' text-base text-[#69C920]'> No Application Found</p>
+    return (
+      <p className='  grid place-items-center font-semibold underline text-[#69C920] tracking-widest w-full text-4xl'>
+        {' '}
+        No Candidate Found
+      </p>
+    )
   }
   console.log(data.id)
 
@@ -393,7 +400,7 @@ const CandidateTypeAGA = () => {
                     Application Resume Link
                   </button>
                 </DialogTrigger>
-                <DialogContent className=''>
+                <DialogContent className=' max-w-fit'>
                   <DialogHeader>
                     <DialogTitle>Application Resume Link</DialogTitle>
                     <DialogDescription>
@@ -410,7 +417,7 @@ const CandidateTypeAGA = () => {
                       {data?.Applicant_Resume}
                     </a>
                   ) : (
-                    <div className='text-red-400 font-medium'>
+                    <div className='text-red-400 font-medium  border border-dashed border-red-500 rounded-xl p-3'>
                       No Application Resume Link was Provided
                     </div>
                   )}
@@ -425,7 +432,7 @@ const CandidateTypeAGA = () => {
                     Speed Test Link
                   </button>
                 </DialogTrigger>
-                <DialogContent className=''>
+                <DialogContent className=' max-w-fit'>
                   <DialogHeader>
                     <DialogTitle> Speed Test Link</DialogTitle>
                     <DialogDescription>
@@ -442,7 +449,7 @@ const CandidateTypeAGA = () => {
                       {data?.Speedtest_Link}
                     </a>
                   ) : (
-                    <div className='text-red-400 font-medium'>
+                    <div className='text-red-400 font-medium  border border-dashed border-red-500 rounded-xl p-3'>
                       No SpeedTest Link was Provided
                     </div>
                   )}

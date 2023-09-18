@@ -19,15 +19,15 @@ const Sidebar = () => {
   }
   return (
     <div
-      className={` ${
-        access_token ? 'sticky' : 'hidden'
-      } h-auto bg-[#e4ffe7] flex  w-min  items-start pt-5 `}
+      className={` ${access_token ? 'sticky' : 'hidden'} ${
+        user?.role !== 'manager' ? 'h-screen' : 'h-auto'
+      }  bg-[#e4ffe7] flex  w-min  items-start pt-5 `}
     >
       <div className='border-2 border-green-500 border-dashed rounded-full flex flex-col gap-y-4 items-center py-7 mx-2'>
         <Avatar className=' border-dashed border-[#018037] border-[3px] w-12 h-12'>
           <AvatarImage
             src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${user?.user_name}&scale=160&radius=50`}
-            alt='@shadcn'
+            alt='AVATAR'
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>

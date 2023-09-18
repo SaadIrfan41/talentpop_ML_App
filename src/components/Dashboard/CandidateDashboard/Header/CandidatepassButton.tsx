@@ -1,13 +1,4 @@
 import { Button } from '@/components/ui/button'
-// import { v4 as uuidv4 } from 'uuid'
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormMessage,
-// } from '@/components/ui/form'
-// import { Input } from '@/components/ui/input'
 
 import {
   Dialog,
@@ -18,15 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-// import { failCandidateFormSchema } from '@/lib/validations/auth/authValidations'
-// import { zodResolver } from '@hookform/resolvers/zod'
-// import { useForm } from 'react-hook-form'
+
 import toast from 'react-hot-toast'
-// import { z } from 'zod'
-// import { Loader2 } from 'lucide-react'
+
 import { useState } from 'react'
 import { useQuestionResultStore } from '@/store/useQuestionResultStore'
-// import { useAuthStore } from '@/store/useAuthStore'
+import { useAuthStore } from '@/store/useAuthStore'
 
 const getQuestionResult = (score: string[]) => {
   const sum = score.reduce((acc, val) => acc + parseFloat(val), 0)
@@ -39,7 +27,11 @@ const getQuestionResult = (score: string[]) => {
   return parseInt(result?.toFixed(1).replace(/[.,]0$/, ''))
 }
 
-export function CandidatePassButton() {
+interface ChildProps {
+  refetch: () => Promise<any> // Define the prop type for the refetch function
+}
+
+export function CandidatePassButton({ refetch }: ChildProps) {
   const [open, setopen] = useState(false)
   const {
     question1_ML_Result,
@@ -53,31 +45,20 @@ export function CandidatePassButton() {
     question5_ML_Result,
     question5_Result,
     candidate_Type,
+    candidate_id_cs,
+    candidate_id_aga,
+    candidate_id_cga,
+    setNextApplicant,
   } = useQuestionResultStore()
-  //   const { access_token } = useAuthStore()
-  // const [showPassword, setshowPassword] = useState(false)
-
-  //   const form = useForm<z.infer<typeof failCandidateFormSchema>>({
-  //     resolver: zodResolver(failCandidateFormSchema),
-  //   })
+  const { access_token } = useAuthStore()
 
   async function onSubmit() {
-    // toast.success('Candidate Passed')
-
     let question_1_Score = question1_ML_Result
     let question_2_Score = question2_ML_Result
     let question_3_Score = question3_ML_Result
     let question_4_Score = question4_ML_Result
     let question_5_Score = question5_ML_Result
-    toast.success('Candidate Passed')
     if (candidate_Type === 'CS') {
-      // const containsZeroInCSQuestions = [
-      //   question1_Result,
-      //   question2_Result,
-      //   question3_Result,
-      //   question4_Result,
-      //   question5_Result,
-      // ].some((arr) => arr.includes('0'))
       if (!question1_Result.includes('0')) {
         question_1_Score = getQuestionResult(question1_Result)
       }
@@ -93,36 +74,57 @@ export function CandidatePassButton() {
       if (!question5_Result.includes('0')) {
         question_5_Score = getQuestionResult(question5_Result)
       }
-      console.log('Final CS GRADED SCORE', {
-        question1_score: question_1_Score,
-        question2_score: question_2_Score,
-        question3_score: question_3_Score,
-        question4_score: question_4_Score,
-        question5_score: question_5_Score,
-        decision: 'Passed',
-        remarks: 'Passed',
-      })
-      //   if (containsZeroInCSQuestions) {
-      //     console.log('ML GRADED SCORE', {
-      //       question1_score: question1_ML_Result,
-      //       question2_score: question2_ML_Result,
-      //       question3_score: question3_ML_Result,
-      //       question4_score: question4_ML_Result,
-      //       question5_score: question5_ML_Result,
-      //       decision: 'Passed',
-      //       remarks: 'Passed',
-      //     })
-      //   } else {
-      //     console.log('USER GRADED SCORE', {
-      //       question1_score: getQuestionResult(question1_Result),
-      //       question2_score: getQuestionResult(question2_Result),
-      //       question3_score: getQuestionResult(question3_Result),
-      //       question4_score: getQuestionResult(question4_Result),
-      //       question5_score: getQuestionResult(question5_Result),
-      //       decision: 'Passed',
-      //       remarks: 'Passed',
-      //     })
-      //   }
+
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/candidate/${
+            candidate_Type === 'CS'
+              ? candidate_id_cs
+              : candidate_Type === 'CGA'
+              ? candidate_id_cga
+              : candidate_id_aga
+          }/evaluate_${
+            candidate_Type === 'CS'
+              ? 'cs'
+              : candidate_Type === 'CGA'
+              ? 'cga'
+              : 'aga'
+          }`,
+          {
+            method: 'POST',
+            headers: {
+              accept: 'application/json',
+              authorization: `Bearer ${access_token}`,
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+              question1_score: question_1_Score,
+              question2_score: question_2_Score,
+              question3_score: question_3_Score,
+              question4_score: question_4_Score,
+              question5_score: question_5_Score,
+              decision: 'Passed',
+              remarks: 'Passed',
+            }),
+          }
+        )
+        const data = await res.json()
+        console.log(data)
+
+        if (data?.detail) {
+          toast.error(data.detail)
+          return
+        }
+        toast.success('Candidate Passed')
+        setNextApplicant(),
+          setTimeout(() => {
+            refetch()
+          }, 0)
+        setopen(false)
+      } catch (error) {
+        toast.error('Server Is not responding')
+        console.log(error)
+      }
     } else {
       if (!question1_Result.includes('0')) {
         question_1_Score = getQuestionResult(question1_Result)
@@ -133,89 +135,57 @@ export function CandidatePassButton() {
       if (!question3_Result.includes('0')) {
         question_3_Score = getQuestionResult(question3_Result)
       }
-      //  if (!question4_Result.includes('0')) {
-      //    question_4_Score = getQuestionResult(question4_Result)
-      //  }
-      //  if (!question5_Result.includes('0')) {
-      //    question_5_Score = getQuestionResult(question5_Result)
-      //  }
-      console.log('Final NON CS GRADED SCORE', {
-        question1_score: question_1_Score,
-        question2_score: question_2_Score,
-        question3_score: question_3_Score,
-        question4_score: question_4_Score,
-        question5_score: question_5_Score,
-        decision: 'Passed',
-        remarks: 'Passed',
-      })
-      // const containsZeroInQuestions = [
-      //   question1_Result,
-      //   question2_Result,
-      //   question3_Result,
-      //   //  question4_Result,
-      //   //  question5_Result,
-      // ].some((arr) => arr.includes('0'))
-      // if (containsZeroInQuestions) {
-      //   console.log('ML GRADED SCORE FOR NON CS Candidate', {
-      //     question1_score: question1_ML_Result,
-      //     question2_score: question2_ML_Result,
-      //     question3_score: question3_ML_Result,
-      //     question4_score: question4_ML_Result,
-      //     question5_score: question5_ML_Result,
-      //     decision: 'Passed',
-      //     remarks: 'Passed',
-      //   })
-      // } else {
-      //   console.log('USER GRADED SCORE FOR NON CS Candidate', {
-      //     question1_score: getQuestionResult(question1_Result),
-      //     question2_score: getQuestionResult(question2_Result),
-      //     question3_score: getQuestionResult(question3_Result),
-      //     question4_score: 0,
-      //     question5_score: 0,
-      //     //  question4_score: getQuestionResult(question4_Result),
-      //     //  question5_score: getQuestionResult(question5_Result),
-      //     decision: 'Passed',
-      //     remarks: 'Passed',
-      //   })
-      // }
+
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/candidate/${
+            candidate_Type === 'CS'
+              ? candidate_id_cs
+              : candidate_Type === 'CGA'
+              ? candidate_id_cga
+              : candidate_id_aga
+          }/evaluate_${
+            candidate_Type === 'CS'
+              ? 'cs'
+              : candidate_Type === 'CGA'
+              ? 'cga'
+              : 'aga'
+          }`,
+          {
+            method: 'POST',
+            headers: {
+              accept: 'application/json',
+              authorization: `Bearer ${access_token}`,
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+              question1_score: question_1_Score,
+              question2_score: question_2_Score,
+              question3_score: question_3_Score,
+              question4_score: question_4_Score,
+              question5_score: question_5_Score,
+              decision: 'Passed',
+              remarks: 'Passed',
+            }),
+          }
+        )
+        const data = await res.json()
+        console.log(data)
+
+        if (data?.detail) {
+          toast.error(data.detail)
+          return
+        }
+        setNextApplicant(),
+          setTimeout(() => {
+            refetch()
+          }, 0)
+        setopen(false)
+      } catch (error) {
+        toast.error('Server Is not responding')
+        console.log(error)
+      }
     }
-
-    setopen(false)
-
-    // try {
-    //   const res = await fetch(
-    //     `${import.meta.env.VITE_BACKEND_BASE_URL}/users`,
-    //     {
-    //       method: 'POST',
-    //       headers: {
-    //         accept: 'application/json',
-    //         authorization: `Bearer ${access_token}`,
-    //         'content-type': 'application/json',
-    //       },
-    //       body: JSON.stringify({
-    //         email: values.email,
-    //         name: values.name,
-    //         password: values.password,
-    //         user_name: values.user_name,
-    //         user_id: values.user_id,
-    //       }),
-    //     }
-    //   )
-    //   const data = await res.json()
-    //   console.log(data)
-
-    //   if (data.detail) {
-    //     toast.error(data.detail)
-    //     return
-    //   }
-    //   toast.success('New Account Created')
-    //   setopen(false)
-
-    //   form.reset()
-    // } catch (error) {
-    //   toast.error('Server Is not responding')
-    //   console.log(error)
-    // }
   }
 
   return (

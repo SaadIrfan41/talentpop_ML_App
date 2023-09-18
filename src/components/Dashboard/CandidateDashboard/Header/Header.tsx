@@ -30,14 +30,10 @@ interface ChildProps {
 const Header = ({ refetch }: ChildProps) => {
   const { access_token } = useAuthStore()
   const {
-    // question1_Result,
-    // question2_Result,
-    // question3_Result,
-    // question4_Result,
-    // question5_Result,
+    setAscApplicant,
+    ascApplication,
     setNextApplicant,
     setPrevApplicant,
-    // candidate_Type,
   } = useQuestionResultStore()
 
   const { data, isLoading, error } = useQuery({
@@ -117,6 +113,14 @@ const Header = ({ refetch }: ChildProps) => {
   //     }
   //   }
   // }
+
+  const handleNext = () => {
+    setNextApplicant(),
+      setTimeout(() => {
+        refetch()
+      }, 0)
+    return
+  }
   return (
     <header
       className=' flex gap-x-10 w-full px-10 py-1'
@@ -158,10 +162,7 @@ const Header = ({ refetch }: ChildProps) => {
               <TooltipTrigger asChild>
                 <button
                   onClick={() => {
-                    setNextApplicant(),
-                      setTimeout(() => {
-                        refetch()
-                      }, 0)
+                    handleNext()
                   }}
                 >
                   <ChevronsRight className=' w-8 h-8 text-purple-500' />
@@ -173,7 +174,25 @@ const Header = ({ refetch }: ChildProps) => {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <ArrowUpDown className='w-8 h-8 text-[#1ea656]  cursor-pointer' />
+        <TooltipProvider delayDuration={400}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={() => {
+                  setAscApplicant(),
+                    setTimeout(() => {
+                      refetch()
+                    }, 0)
+                }}
+              >
+                <ArrowUpDown className='w-8 h-8 text-[#1ea656]  cursor-pointer' />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className=' bg-green-400 text-white'>
+              <p>Order by {ascApplication === 'true' ? 'Oldest' : 'Newest'} </p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <div className='flex items-center gap-x-4 w-full '>
           <Progress
             value={(data?.graded / data?.assigned) * 100}
@@ -186,8 +205,8 @@ const Header = ({ refetch }: ChildProps) => {
       </div>
 
       <div className='flex w-full gap-x-4 items-center justify-end'>
-        <FailCandidateButton />
-        <CandidatePassButton />
+        <FailCandidateButton refetch={refetch} />
+        <CandidatePassButton refetch={refetch} />
         {/* <DropdownMenu>
           <DropdownMenuTrigger
             className={

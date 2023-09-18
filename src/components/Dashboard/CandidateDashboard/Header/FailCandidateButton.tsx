@@ -25,7 +25,7 @@ import toast from 'react-hot-toast'
 import { z } from 'zod'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
-// import { useAuthStore } from '@/store/useAuthStore'
+import { useAuthStore } from '@/store/useAuthStore'
 import {
   Select,
   SelectContent,
@@ -47,9 +47,13 @@ const getQuestionResult = (score: string[]) => {
   return parseInt(result?.toFixed(1).replace(/[.,]0$/, ''))
 }
 
-export function FailCandidateButton() {
+interface ChildProps {
+  refetch: () => Promise<any> // Define the prop type for the refetch function
+}
+
+export function FailCandidateButton({ refetch }: ChildProps) {
   const [open, setopen] = useState(false)
-  //   const { access_token } = useAuthStore()
+  const { access_token } = useAuthStore()
   const {
     question1_ML_Result,
     question1_Result,
@@ -62,6 +66,10 @@ export function FailCandidateButton() {
     question5_ML_Result,
     question5_Result,
     candidate_Type,
+    candidate_id_cs,
+    candidate_id_aga,
+    candidate_id_cga,
+    setNextApplicant,
   } = useQuestionResultStore()
   // const [showPassword, setshowPassword] = useState(false)
 
@@ -100,15 +108,65 @@ export function FailCandidateButton() {
       if (!question5_Result.includes('0')) {
         question_5_Score = getQuestionResult(question5_Result)
       }
-      console.log('Final CS GRADED SCORE', {
-        question1_score: question_1_Score,
-        question2_score: question_2_Score,
-        question3_score: question_3_Score,
-        question4_score: question_4_Score,
-        question5_score: question_5_Score,
-        decision: 'Failed',
-        remarks: values.failing_reason,
-      })
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/candidate/${
+            candidate_Type === 'CS'
+              ? candidate_id_cs
+              : candidate_Type === 'CGA'
+              ? candidate_id_cga
+              : candidate_id_aga
+          }/evaluate_${
+            candidate_Type === 'CS'
+              ? 'cs'
+              : candidate_Type === 'CGA'
+              ? 'cga'
+              : 'aga'
+          }`,
+          {
+            method: 'POST',
+            headers: {
+              accept: 'application/json',
+              authorization: `Bearer ${access_token}`,
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+              question1_score: question_1_Score,
+              question2_score: question_2_Score,
+              question3_score: question_3_Score,
+              question4_score: question_4_Score,
+              question5_score: question_5_Score,
+              decision: 'Failed',
+              remarks: values.failing_reason,
+            }),
+          }
+        )
+        const data = await res.json()
+        console.log(data)
+
+        if (data?.detail) {
+          toast.error(data.detail)
+          return
+        }
+        toast.success('Candidate Failed')
+        setNextApplicant(),
+          setTimeout(() => {
+            refetch()
+          }, 0)
+        setopen(false)
+      } catch (error) {
+        toast.error('Server Is not responding')
+        console.log(error)
+      }
+      // console.log('Final CS GRADED SCORE', {
+      //   question1_score: question_1_Score,
+      //   question2_score: question_2_Score,
+      //   question3_score: question_3_Score,
+      //   question4_score: question_4_Score,
+      //   question5_score: question_5_Score,
+      //   decision: 'Failed',
+      //   remarks: values.failing_reason,
+      // })
       //   if (containsZeroInCSQuestions) {
       //     console.log('ML GRADED SCORE', {
       //       question1_score: question1_ML_Result,
@@ -140,21 +198,71 @@ export function FailCandidateButton() {
       if (!question3_Result.includes('0')) {
         question_3_Score = getQuestionResult(question3_Result)
       }
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/candidate/${
+            candidate_Type === 'CS'
+              ? candidate_id_cs
+              : candidate_Type === 'CGA'
+              ? candidate_id_cga
+              : candidate_id_aga
+          }/evaluate_${
+            candidate_Type === 'CS'
+              ? 'cs'
+              : candidate_Type === 'CGA'
+              ? 'cga'
+              : 'aga'
+          }`,
+          {
+            method: 'POST',
+            headers: {
+              accept: 'application/json',
+              authorization: `Bearer ${access_token}`,
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+              question1_score: question_1_Score,
+              question2_score: question_2_Score,
+              question3_score: question_3_Score,
+              question4_score: question_4_Score,
+              question5_score: question_5_Score,
+              decision: 'Failed',
+              remarks: values.failing_reason,
+            }),
+          }
+        )
+        const data = await res.json()
+        console.log(data)
+
+        if (data?.detail) {
+          toast.error(data.detail)
+          return
+        }
+        toast.success('Candidate Failed')
+        setNextApplicant(),
+          setTimeout(() => {
+            refetch()
+          }, 0)
+        setopen(false)
+      } catch (error) {
+        toast.error('Server Is not responding')
+        console.log(error)
+      }
       //  if (!question4_Result.includes('0')) {
       //    question_4_Score = getQuestionResult(question4_Result)
       //  }
       //  if (!question5_Result.includes('0')) {
       //    question_5_Score = getQuestionResult(question5_Result)
       //  }
-      console.log('Final NON CS GRADED SCORE', {
-        question1_score: question_1_Score,
-        question2_score: question_2_Score,
-        question3_score: question_3_Score,
-        question4_score: question_4_Score,
-        question5_score: question_5_Score,
-        decision: 'Failed',
-        remarks: values.failing_reason,
-      })
+      // console.log('Final NON CS GRADED SCORE', {
+      //   question1_score: question_1_Score,
+      //   question2_score: question_2_Score,
+      //   question3_score: question_3_Score,
+      //   question4_score: question_4_Score,
+      //   question5_score: question_5_Score,
+      //   decision: 'Failed',
+      //   remarks: values.failing_reason,
+      // })
       // const containsZeroInQuestions = [
       //   question1_Result,
       //   question2_Result,
@@ -186,44 +294,6 @@ export function FailCandidateButton() {
       //   })
       // }
     }
-
-    setopen(false)
-
-    form.reset()
-    // try {
-    //   const res = await fetch(
-    //     `${import.meta.env.VITE_BACKEND_BASE_URL}/users`,
-    //     {
-    //       method: 'POST',
-    //       headers: {
-    //         accept: 'application/json',
-    //         authorization: `Bearer ${access_token}`,
-    //         'content-type': 'application/json',
-    //       },
-    //       body: JSON.stringify({
-    //         email: values.email,
-    //         name: values.name,
-    //         password: values.password,
-    //         user_name: values.user_name,
-    //         user_id: values.user_id,
-    //       }),
-    //     }
-    //   )
-    //   const data = await res.json()
-    //   console.log(data)
-
-    //   if (data.detail) {
-    //     toast.error(data.detail)
-    //     return
-    //   }
-    //   toast.success('New Account Created')
-    //   setopen(false)
-
-    //   form.reset()
-    // } catch (error) {
-    //   toast.error('Server Is not responding')
-    //   console.log(error)
-    // }
   }
 
   return (

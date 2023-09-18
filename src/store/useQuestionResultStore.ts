@@ -16,8 +16,11 @@ interface State {
   question5_ML_Result: number
   nextApplication: string
   prevApplication: string
+  ascApplication: string
   candidate_Type: string | null
-  candidate_id: number | null
+  candidate_id_cs: number | null
+  candidate_id_aga: number | null
+  candidate_id_cga: number | null
 }
 
 interface Actions {
@@ -38,9 +41,12 @@ interface Actions {
   ) => void
   setNextApplicant: () => void
   setPrevApplicant: () => void
+  setAscApplicant: () => void
   resetApplicant: () => void
   setCandidateType: (type: string) => void
-  setCandidateID: (id: number) => void
+  setCandidateId_CS: (id: number) => void
+  setCandidateId_AGA: (id: number) => void
+  setCandidateId_CGA: (id: number) => void
 }
 
 const INITIAL_STATE: State = {
@@ -58,17 +64,23 @@ const INITIAL_STATE: State = {
   question5_ML_Result: 0,
   nextApplication: 'false',
   prevApplication: 'false',
+  ascApplication: 'true',
   candidate_Type: null,
-  candidate_id: null,
+  candidate_id_cs: null,
+  candidate_id_aga: null,
+  candidate_id_cga: null,
 }
 
 export const useQuestionResultStore = create<State & Actions>((set, get) => ({
   isLoading: INITIAL_STATE.isLoading,
   error: INITIAL_STATE.error,
   candidate_Type: INITIAL_STATE.candidate_Type,
-  candidate_id: INITIAL_STATE.candidate_id,
+  candidate_id_cs: INITIAL_STATE.candidate_id_cs,
+  candidate_id_aga: INITIAL_STATE.candidate_id_aga,
+  candidate_id_cga: INITIAL_STATE.candidate_id_cga,
   nextApplication: INITIAL_STATE.nextApplication,
   prevApplication: INITIAL_STATE.prevApplication,
+  ascApplication: INITIAL_STATE.ascApplication,
   question1_Result: INITIAL_STATE.question1_Result,
   question2_Result: INITIAL_STATE.question2_Result,
   question3_Result: INITIAL_STATE.question3_Result,
@@ -244,12 +256,42 @@ export const useQuestionResultStore = create<State & Actions>((set, get) => ({
         set({ error: error.message, isLoading: false })
     }
   },
-  setCandidateID: (id) => {
+  setCandidateId_CS: (id) => {
     try {
       return set(() => ({
         isLoading: false,
         error: null,
-        candidate_id: id,
+        candidate_id_cs: id,
+        candidate_id_aga: null,
+        candidate_id_cga: null,
+      }))
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message, isLoading: false })
+    }
+  },
+  setCandidateId_AGA: (id) => {
+    try {
+      return set(() => ({
+        isLoading: false,
+        error: null,
+        candidate_id_aga: id,
+        candidate_id_cs: null,
+        candidate_id_cga: null,
+      }))
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message, isLoading: false })
+    }
+  },
+  setCandidateId_CGA: (id) => {
+    try {
+      return set(() => ({
+        isLoading: false,
+        error: null,
+        candidate_id_cga: id,
+        candidate_id_cs: null,
+        candidate_id_aga: null,
       }))
     } catch (error) {
       if (error instanceof Error)
@@ -281,6 +323,28 @@ export const useQuestionResultStore = create<State & Actions>((set, get) => ({
         error: null,
         nextApplication: 'false',
         prevApplication: 'true',
+        question1_Result: INITIAL_STATE.question1_Result,
+        question2_Result: INITIAL_STATE.question2_Result,
+        question3_Result: INITIAL_STATE.question3_Result,
+        question4_Result: INITIAL_STATE.question4_Result,
+        question5_Result: INITIAL_STATE.question5_Result,
+      }))
+    } catch (error) {
+      if (error instanceof Error)
+        set({ error: error.message, isLoading: false })
+    }
+  },
+  setAscApplicant: () => {
+    try {
+      return set(() => ({
+        isLoading: false,
+        error: null,
+        nextApplication: 'false',
+        prevApplication: 'false',
+        ascApplication: get().ascApplication === 'true' ? 'false' : 'true',
+        candidate_id_aga: INITIAL_STATE.candidate_id_aga,
+        candidate_id_cga: INITIAL_STATE.candidate_id_cga,
+        candidate_id_cs: INITIAL_STATE.candidate_id_cs,
         question1_Result: INITIAL_STATE.question1_Result,
         question2_Result: INITIAL_STATE.question2_Result,
         question3_Result: INITIAL_STATE.question3_Result,

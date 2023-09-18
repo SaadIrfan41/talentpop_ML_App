@@ -20,30 +20,33 @@ import { useQuestionResultStore } from '@/store/useQuestionResultStore'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 // import GradingRubicSectionCGA from './GradingRubicSectionCGA'
-import GradingRubicSectionCS from '../CS/GradingRubicSectionCS'
+import GradingRubicSectionCS from '../GradingRubicSectionCS'
 
 const CandidateTypeCGA = () => {
   const { access_token } = useAuthStore()
 
-  const [canID, setcanID] = useState(null)
-
-  const { nextApplication, prevApplication, setCandidateType } =
-    useQuestionResultStore()
+  const {
+    nextApplication,
+    prevApplication,
+    setCandidateType,
+    candidate_id_cga,
+    ascApplication,
+    setCandidateId_CGA,
+  } = useQuestionResultStore()
   const [questions, setquestions] = useState([''])
 
   const { data, isLoading, error, refetch, isFetching } = useQuery({
-    queryKey: ['candidate-data'],
+    queryKey: ['candidate-data-cga'],
     queryFn: () => getCandidateData(),
   })
-  console.log('NEXT', nextApplication, 'PREV', prevApplication)
 
   const getCandidateData = async () => {
-    if (canID) {
+    if (candidate_id_cga) {
       try {
         const res = await fetch(
           `${
             import.meta.env.VITE_BACKEND_BASE_URL
-          }/candidate?candidate_id=${canID}&next_candidate=${nextApplication}&prev_candidate=${prevApplication}`,
+          }/candidate_cga?candidate_id=${candidate_id_cga}&next_candidate=${nextApplication}&prev_candidate=${prevApplication}&asc=${ascApplication}`,
           {
             headers: {
               accept: 'application/json',
@@ -52,7 +55,6 @@ const CandidateTypeCGA = () => {
           }
         )
         const candidate = await res.json()
-        console.log('NEW CANDIDATE', candidate)
 
         if (res.status === 401) {
           return { message: 'Not authenticated' }
@@ -67,7 +69,7 @@ const CandidateTypeCGA = () => {
       const res = await fetch(
         `${
           import.meta.env.VITE_BACKEND_BASE_URL
-        }/candidate?next_candidate=${nextApplication}&prev_candidate=${prevApplication}`,
+        }/candidate_cga?next_candidate=${nextApplication}&prev_candidate=${prevApplication}&asc=${ascApplication}`,
         {
           headers: {
             accept: 'application/json',
@@ -87,7 +89,7 @@ const CandidateTypeCGA = () => {
   }
   useEffect(() => {
     if (data) {
-      setcanID(data?.id)
+      setCandidateId_CGA(data?.id)
       if (data?.candidate_type) {
         setCandidateType(data?.candidate_type)
         if (data?.candidate_type === 'CS') {
@@ -448,7 +450,7 @@ const CandidateTypeCGA = () => {
                     Application Resume Link
                   </button>
                 </DialogTrigger>
-                <DialogContent className=''>
+                <DialogContent className=' max-w-fit'>
                   <DialogHeader>
                     <DialogTitle>Application Resume Link</DialogTitle>
                     <DialogDescription>
@@ -465,7 +467,7 @@ const CandidateTypeCGA = () => {
                       {data?.Applicant_Resume}
                     </a>
                   ) : (
-                    <div className='text-red-400 font-medium'>
+                    <div className='text-red-400 font-medium  border border-dashed border-red-500 rounded-xl p-3'>
                       No Application Resume Link was Provided
                     </div>
                   )}
@@ -479,7 +481,7 @@ const CandidateTypeCGA = () => {
                     Creative Portfolio Link
                   </button>
                 </DialogTrigger>
-                <DialogContent className=''>
+                <DialogContent className=' max-w-fit'>
                   <DialogHeader>
                     <DialogTitle>Creative Portfolio Link</DialogTitle>
                     <DialogDescription>
@@ -496,7 +498,7 @@ const CandidateTypeCGA = () => {
                       {data?.portfolio_link}
                     </a>
                   ) : (
-                    <div className='text-red-400 font-medium'>
+                    <div className='text-red-400 font-medium  border border-dashed border-red-500 rounded-xl p-3'>
                       No Portfolio Link was Provided
                     </div>
                   )}
@@ -510,7 +512,7 @@ const CandidateTypeCGA = () => {
                     Speed Test Link
                   </button>
                 </DialogTrigger>
-                <DialogContent className=''>
+                <DialogContent className=' max-w-fit'>
                   <DialogHeader>
                     <DialogTitle> Speed Test Link</DialogTitle>
                     <DialogDescription>
@@ -527,7 +529,7 @@ const CandidateTypeCGA = () => {
                       {data?.Speedtest_Link}
                     </a>
                   ) : (
-                    <div className='text-red-400 font-medium'>
+                    <div className='text-red-400 font-medium  border border-dashed border-red-500 rounded-xl p-3'>
                       No SpeedTest Link was Provided
                     </div>
                   )}
@@ -541,7 +543,7 @@ const CandidateTypeCGA = () => {
                     Typing Quiz Link
                   </button>
                 </DialogTrigger>
-                <DialogContent className=''>
+                <DialogContent className=' max-w-fit'>
                   <DialogHeader>
                     <DialogTitle>Typing Quiz Link</DialogTitle>
                     <DialogDescription>
@@ -558,7 +560,7 @@ const CandidateTypeCGA = () => {
                       {data?.Typing_Quiz_Link}
                     </a>
                   ) : (
-                    <div className='text-red-400 font-medium'>
+                    <div className='text-red-400 font-medium  border border-dashed border-red-500 rounded-xl p-3'>
                       No Typing Quiz Link was Provided
                     </div>
                   )}
