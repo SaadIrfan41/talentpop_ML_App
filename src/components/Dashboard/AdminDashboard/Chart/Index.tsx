@@ -6,16 +6,20 @@ const EvaluatorChart = ({ data }: any) => {
   const names: string[] = []
   const graded: number[] = []
   const remaining: number[] = []
+  const assigned: number[] = []
 
   data?.forEach((obj: any) => {
     if (obj?.name) {
       names.push(obj?.name)
     }
-    if (obj?.graded) {
-      graded.push(obj?.graded as number)
+    if (obj?.total_assigned) {
+      assigned.push(obj?.total_assigned as number)
     }
-    if (obj?.remaining) {
-      remaining.push(obj?.remaining as number)
+    if (obj?.total_graded) {
+      graded.push(obj?.total_graded as number)
+    }
+    if (obj?.total_remaining) {
+      remaining.push(obj?.total_remaining as number)
     }
   })
   return (
@@ -36,6 +40,7 @@ const EvaluatorChart = ({ data }: any) => {
             names={names}
             graded={graded}
             remaining={remaining}
+            assigned={assigned}
           />
         </div>
       </div>

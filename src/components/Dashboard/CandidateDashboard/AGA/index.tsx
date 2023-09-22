@@ -126,9 +126,10 @@ const CandidateTypeAGA = () => {
       </p>
     )
   }
-  console.log(data.id)
 
-  console.log(data.candidate_type)
+  // console.log(data.id)
+
+  // console.log(data.candidate_type)
 
   return (
     <div className=' flex flex-col max-h-screen'>

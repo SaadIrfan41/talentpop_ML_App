@@ -75,7 +75,7 @@ const Header = ({ refetch }: ChildProps) => {
   if (data?.detail == 'No Candidate Found') {
     return <p className=' text-base text-[#69C920]'> No Application Found</p>
   }
-  // console.log(data)
+  console.log(data)
 
   // const checkManualQuestionGrading = () => {
   //   let allQuestions
@@ -113,7 +113,7 @@ const Header = ({ refetch }: ChildProps) => {
   //     }
   //   }
   // }
-
+  console.log(data)
   const handleNext = () => {
     setNextApplicant(),
       setTimeout(() => {
@@ -195,11 +195,11 @@ const Header = ({ refetch }: ChildProps) => {
         </TooltipProvider>
         <div className='flex items-center gap-x-4 w-full '>
           <Progress
-            value={(data?.graded / data?.assigned) * 100}
+            value={(data?.total_graded / data?.total_assigned) * 100}
             className=' w-96 bg-gray-400 h-2'
           />
           <span className=' text-[#1ea656] font-semibold text-sm'>
-            {data?.graded}/{data?.assigned}
+            {data?.total_graded}/{data?.total_assigned}
           </span>
         </div>
       </div>
@@ -207,39 +207,6 @@ const Header = ({ refetch }: ChildProps) => {
       <div className='flex w-full gap-x-4 items-center justify-end'>
         <FailCandidateButton refetch={refetch} />
         <CandidatePassButton refetch={refetch} />
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger
-            className={
-              'bg-gradient-to-r  focus:outline-none from-[#8800f3] from-0% to-red-500 to-100% text-white text-sm  flex items-center gap-x-2 rounded-sm p-1 px-2 '
-            }
-          >
-            <ChevronDown className='w-4 h-4' />
-            Failed
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel className=' text-sm'>
-              Reason for Failing
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {failingReasons.map((reason, index) => (
-              <DropdownMenuItem
-                onClick={() => checkManualQuestionGrading()}
-                className=' cursor-pointer'
-                key={index}
-              >
-                {reason}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu> */}
-        {/* <button
-          onClick={() => checkManualQuestionGrading()}
-          className={
-            'bg-gradient-to-r  focus:outline-none from-[#6bf4a4] from-0% to-[#34ceff] to-100% text-white text-sm  flex items-center gap-x-2 rounded-sm p-1 px-2 '
-          }
-        >
-          Passed
-        </button> */}
       </div>
     </header>
   )

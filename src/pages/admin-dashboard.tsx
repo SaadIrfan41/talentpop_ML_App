@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom'
 
 const AdminDashboard = () => {
   const { user } = useAuthStore()
-  console.log(user)
+  // console.log(user)
   if (user?.role !== 'manager') {
     return <Navigate to='/candidate-dashboard/cs' />
   }

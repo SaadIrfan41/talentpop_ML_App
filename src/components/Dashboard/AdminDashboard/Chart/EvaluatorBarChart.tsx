@@ -27,7 +27,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 //   return gradient
 // }
 
-export function EvaluatorBarChart({ names, graded, remaining }: any) {
+export function EvaluatorBarChart({ names, graded, remaining, assigned }: any) {
   // console.log(names, values)
   const chartRef = useRef<ChartJS>(null)
   const [chartData, setChartData] = useState<ChartData<'bar'>>({
@@ -55,6 +55,12 @@ export function EvaluatorBarChart({ names, graded, remaining }: any) {
           backgroundColor: 'rgb(255, 99, 132)',
           stack: 'Stack 1',
         },
+        {
+          label: 'Remaining',
+          data: assigned,
+          backgroundColor: 'rgb(99, 122, 255)',
+          stack: 'Stack 2',
+        },
         // {
         //   //  label: 'Dataset 1',
         //   data: values,
@@ -75,7 +81,7 @@ export function EvaluatorBarChart({ names, graded, remaining }: any) {
     // }
 
     setChartData(data)
-  }, [names, graded, remaining])
+  }, [names, graded, remaining, assigned])
 
   const options = {
     // indexAxis: 'x' as const,

@@ -43,8 +43,15 @@ type Users = {
   job_title: string
   email: string
   assigned: number
-  remaining: number
-  graded: number
+  remaining_aga: number
+  remaining_cga: number
+  remaining_cs: number
+  graded_aga: number
+  graded_cga: number
+  graded_cs: number
+  assigned_aga: number
+  assigned_cga: number
+  assigned_cs: number
   // remaining_cs: number
   // remaining_cga: number
   // remaining_aga: number
@@ -84,20 +91,74 @@ const columns: ColumnDef<Users>[] = [
       </div>
     ),
   },
+  // {
+  //   accessorKey: 'assigned',
+  //   header: 'Assigned',
+  //   cell: ({ row }) => (
+  //     <div className='  font-medium capitalize '>
+  //       {row.getValue('assigned')}
+  //     </div>
+  //   ),
+  // },
+  // {
+  //   accessorKey: 'graded',
+  //   header: 'Graded',
+  //   cell: ({ row }) => (
+  //     <div className='  font-medium capitalize '>{row.getValue('graded')}</div>
+  //   ),
+  // },
   {
-    accessorKey: 'assigned',
-    header: 'Assigned',
+    accessorKey: 'assigned_cs',
+    header: 'Assigned CS',
     cell: ({ row }) => (
-      <div className='  font-medium capitalize '>
-        {row.getValue('assigned')}
+      <div className='  font-medium capitalize text-center'>
+        {row.getValue('assigned_cs')}
       </div>
     ),
   },
   {
-    accessorKey: 'graded',
-    header: 'Graded',
+    accessorKey: 'assigned_cga',
+    header: 'Assigned CGA',
     cell: ({ row }) => (
-      <div className='  font-medium capitalize '>{row.getValue('graded')}</div>
+      <div className='  font-medium capitalize text-center '>
+        {row.getValue('assigned_cga')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'assigned_aga',
+    header: 'Assigned AGA',
+    cell: ({ row }) => (
+      <div className='  font-medium capitalize text-center '>
+        {row.getValue('assigned_aga')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'graded_cs',
+    header: 'Graded CS',
+    cell: ({ row }) => (
+      <div className='  font-medium capitalize text-center'>
+        {row.getValue('graded_cs')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'graded_cga',
+    header: 'Graded CGA',
+    cell: ({ row }) => (
+      <div className='  font-medium capitalize text-center '>
+        {row.getValue('graded_cga')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'graded_aga',
+    header: 'Graded AGA',
+    cell: ({ row }) => (
+      <div className='  font-medium capitalize text-center '>
+        {row.getValue('graded_aga')}
+      </div>
     ),
   },
   {
@@ -105,7 +166,7 @@ const columns: ColumnDef<Users>[] = [
     header: 'Remaining CS',
     cell: ({ row }) => (
       <div className='  font-medium capitalize text-center'>
-        {row.getValue('remaining')}
+        {row.getValue('remaining_cs')}
       </div>
     ),
   },
@@ -114,16 +175,16 @@ const columns: ColumnDef<Users>[] = [
     header: 'Remaining CGA',
     cell: ({ row }) => (
       <div className='  font-medium capitalize text-center '>
-        {row.getValue('remaining')}
+        {row.getValue('remaining_cga')}
       </div>
     ),
   },
   {
-    accessorKey: 'remaining',
+    accessorKey: 'remaining_aga',
     header: 'Remaining AGA',
     cell: ({ row }) => (
       <div className='  font-medium capitalize text-center '>
-        {row.getValue('remaining')}
+        {row.getValue('remaining_aga')}
       </div>
     ),
   },
