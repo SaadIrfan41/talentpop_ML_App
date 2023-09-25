@@ -22,6 +22,8 @@ export const failCandidateFormSchema = z.object({
     'Ineligible For Wise',
     'Skills Assessment Score Not Met',
     'Creative Portfolio Not Suitable',
+    'Less than 1 year of CGA XP',
+    'Less than 1 year of AGA XP',
     'No Relevant AGA XP',
     'No Relevant CGA XP',
   ]),

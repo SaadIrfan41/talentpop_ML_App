@@ -158,36 +158,6 @@ export function FailCandidateButton({ refetch }: ChildProps) {
         toast.error('Server Is not responding')
         console.log(error)
       }
-      // console.log('Final CS GRADED SCORE', {
-      //   question1_score: question_1_Score,
-      //   question2_score: question_2_Score,
-      //   question3_score: question_3_Score,
-      //   question4_score: question_4_Score,
-      //   question5_score: question_5_Score,
-      //   decision: 'Failed',
-      //   remarks: values.failing_reason,
-      // })
-      //   if (containsZeroInCSQuestions) {
-      //     console.log('ML GRADED SCORE', {
-      //       question1_score: question1_ML_Result,
-      //       question2_score: question2_ML_Result,
-      //       question3_score: question3_ML_Result,
-      //       question4_score: question4_ML_Result,
-      //       question5_score: question5_ML_Result,
-      //       decision: 'Failed',
-      //       remarks: values.failing_reason,
-      //     })
-      //   } else {
-      //     console.log('USER GRADED SCORE', {
-      //       question1_score: getQuestionResult(question1_Result),
-      //       question2_score: getQuestionResult(question2_Result),
-      //       question3_score: getQuestionResult(question3_Result),
-      //       question4_score: getQuestionResult(question4_Result),
-      //       question5_score: getQuestionResult(question5_Result),
-      //       decision: 'Failed',
-      //       remarks: values.failing_reason,
-      //     })
-      //   }
     } else {
       if (!question1_Result.includes('0')) {
         question_1_Score = getQuestionResult(question1_Result)
@@ -248,51 +218,6 @@ export function FailCandidateButton({ refetch }: ChildProps) {
         toast.error('Server Is not responding')
         console.log(error)
       }
-      //  if (!question4_Result.includes('0')) {
-      //    question_4_Score = getQuestionResult(question4_Result)
-      //  }
-      //  if (!question5_Result.includes('0')) {
-      //    question_5_Score = getQuestionResult(question5_Result)
-      //  }
-      // console.log('Final NON CS GRADED SCORE', {
-      //   question1_score: question_1_Score,
-      //   question2_score: question_2_Score,
-      //   question3_score: question_3_Score,
-      //   question4_score: question_4_Score,
-      //   question5_score: question_5_Score,
-      //   decision: 'Failed',
-      //   remarks: values.failing_reason,
-      // })
-      // const containsZeroInQuestions = [
-      //   question1_Result,
-      //   question2_Result,
-      //   question3_Result,
-      //   //  question4_Result,
-      //   //  question5_Result,
-      // ].some((arr) => arr.includes('0'))
-      // if (containsZeroInQuestions) {
-      //   console.log('ML GRADED SCORE FOR NON CS Candidate', {
-      //     question1_score: question1_ML_Result,
-      //     question2_score: question2_ML_Result,
-      //     question3_score: question3_ML_Result,
-      //     question4_score: question4_ML_Result,
-      //     question5_score: question5_ML_Result,
-      //     decision: 'Failed',
-      //     remarks: values.failing_reason,
-      //   })
-      // } else {
-      //   console.log('USER GRADED SCORE FOR NON CS Candidate', {
-      //     question1_score: getQuestionResult(question1_Result),
-      //     question2_score: getQuestionResult(question2_Result),
-      //     question3_score: getQuestionResult(question3_Result),
-      //     question4_score: 0,
-      //     question5_score: 0,
-      //     //  question4_score: getQuestionResult(question4_Result),
-      //     //  question5_score: getQuestionResult(question5_Result),
-      //     decision: 'Failed',
-      //     remarks: values.failing_reason,
-      //   })
-      // }
     }
   }
 
@@ -330,7 +255,7 @@ export function FailCandidateButton({ refetch }: ChildProps) {
                         <SelectValue placeholder='Failing Reason' />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className=' md:-top-24 xl:-top-24 '>
+                    <SelectContent className=' max-h-[370px] overflow-auto'>
                       {failingReasons.map((reason) => (
                         <SelectItem className='' key={reason} value={reason}>
                           {reason}
