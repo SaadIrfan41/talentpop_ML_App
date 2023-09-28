@@ -84,7 +84,7 @@ export function FailCandidateButton({ refetch }: ChildProps) {
     let question_3_Score = question3_ML_Result
     let question_4_Score = question4_ML_Result
     let question_5_Score = question5_ML_Result
-    toast.success('Candidate Failed')
+
     if (candidate_Type === 'CS') {
       // const containsZeroInCSQuestions = [
       //   question1_Result,
