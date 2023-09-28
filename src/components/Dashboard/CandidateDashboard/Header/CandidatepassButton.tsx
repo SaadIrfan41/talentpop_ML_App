@@ -108,19 +108,30 @@ export function CandidatePassButton({ refetch }: ChildProps) {
             }),
           }
         )
-        const data = await res.json()
-        console.log(data)
+        if (!res.ok) {
+          const data = await res.json()
+          console.log(data)
 
-        if (data?.detail) {
-          toast.error(data.detail)
-          return
+          if (data?.detail) {
+            toast.error(data.detail)
+            return
+          }
+        } else {
+          toast.success('Candidate Passed')
+
+          setNextApplicant(),
+            setTimeout(() => {
+              refetch()
+            }, 0)
+          setopen(false)
         }
-        toast.success('Candidate Passed')
-        setNextApplicant(),
-          setTimeout(() => {
-            refetch()
-          }, 0)
-        setopen(false)
+
+        // toast.success('Candidate Passed')
+        // setNextApplicant(),
+        //   setTimeout(() => {
+        //     refetch()
+        //   }, 0)
+        // setopen(false)
       } catch (error) {
         toast.error('Server Is not responding')
         console.log(error)
@@ -169,18 +180,23 @@ export function CandidatePassButton({ refetch }: ChildProps) {
             }),
           }
         )
-        const data = await res.json()
-        console.log(data)
+        if (!res.ok) {
+          const data = await res.json()
+          console.log(data)
 
-        if (data?.detail) {
-          toast.error(data.detail)
-          return
+          if (data?.detail) {
+            toast.error(data.detail)
+            return
+          }
+        } else {
+          toast.success('Candidate Passed')
+
+          setNextApplicant(),
+            setTimeout(() => {
+              refetch()
+            }, 0)
+          setopen(false)
         }
-        setNextApplicant(),
-          setTimeout(() => {
-            refetch()
-          }, 0)
-        setopen(false)
       } catch (error) {
         toast.error('Server Is not responding')
         console.log(error)

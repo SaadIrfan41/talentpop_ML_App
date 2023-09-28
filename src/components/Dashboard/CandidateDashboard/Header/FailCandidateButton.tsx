@@ -141,18 +141,35 @@ export function FailCandidateButton({ refetch }: ChildProps) {
             }),
           }
         )
-        const data = await res.json()
-        console.log(data)
+        if (!res.ok) {
+          const data = await res.json()
+          console.log(data)
 
-        if (data?.detail) {
-          toast.error(data.detail)
-          return
+          if (data?.detail) {
+            toast.error(data.detail)
+            return
+          }
+        } else {
+          toast.success('Candidate Failed')
+
+          setNextApplicant(),
+            setTimeout(() => {
+              refetch()
+            }, 0)
+          setopen(false)
         }
-        toast.success('Candidate Failed')
-        setNextApplicant(),
-          setTimeout(() => {
-            refetch()
-          }, 0)
+        // const data = await res.json()
+        // console.log(data)
+
+        // if (data?.detail) {
+        //   toast.error(data.detail)
+        //   return
+        // }
+        // toast.success('Candidate Failed')
+        // setNextApplicant(),
+        //   setTimeout(() => {
+        //     refetch()
+        //   }, 0)
         setopen(false)
       } catch (error) {
         toast.error('Server Is not responding')
@@ -201,19 +218,36 @@ export function FailCandidateButton({ refetch }: ChildProps) {
             }),
           }
         )
-        const data = await res.json()
-        console.log(data)
+        if (!res.ok) {
+          const data = await res.json()
+          console.log(data)
 
-        if (data?.detail) {
-          toast.error(data.detail)
-          return
+          if (data?.detail) {
+            toast.error(data.detail)
+            return
+          }
+        } else {
+          toast.success('Candidate Failed')
+
+          setNextApplicant(),
+            setTimeout(() => {
+              refetch()
+            }, 0)
+          setopen(false)
         }
-        toast.success('Candidate Failed')
-        setNextApplicant(),
-          setTimeout(() => {
-            refetch()
-          }, 0)
-        setopen(false)
+        // const data = await res.json()
+        // console.log(data)
+
+        // if (data?.detail) {
+        //   toast.error(data.detail)
+        //   return
+        // }
+        // toast.success('Candidate Failed')
+        // setNextApplicant(),
+        //   setTimeout(() => {
+        //     refetch()
+        //   }, 0)
+        // setopen(false)
       } catch (error) {
         toast.error('Server Is not responding')
         console.log(error)
