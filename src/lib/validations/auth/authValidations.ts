@@ -16,6 +16,7 @@ export const failCandidateFormSchema = z.object({
     'Not Looking for Full-Time Positions',
     'Internet Speed Test - Does Not Meet Requirements',
     'Commitments',
+    'Not Rehirable',
     'Re-applied with 90 days',
     'Responses copied and pasted from external sources',
     'No Failed Screening Email',
