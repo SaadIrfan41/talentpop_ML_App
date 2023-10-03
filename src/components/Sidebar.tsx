@@ -9,12 +9,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useQuestionResultStore } from '@/store/useQuestionResultStore'
 const Sidebar = () => {
   const { access_token, logout, user } = useAuthStore()
+  const { setCandidateId_AGA, setCandidateId_CGA, setCandidateId_CS } =
+    useQuestionResultStore()
 
   const navigate = useNavigate()
   const handleLogout = () => {
-    logout()
+    setCandidateId_CS(null),
+      setCandidateId_CGA(null),
+      setCandidateId_AGA(null),
+      logout()
     navigate('/login')
   }
   return (

@@ -44,9 +44,9 @@ interface Actions {
   setAscApplicant: () => void
   resetApplicant: () => void
   setCandidateType: (type: string) => void
-  setCandidateId_CS: (id: number) => void
-  setCandidateId_AGA: (id: number) => void
-  setCandidateId_CGA: (id: number) => void
+  setCandidateId_CS: (id: number | null) => void
+  setCandidateId_AGA: (id: number | null) => void
+  setCandidateId_CGA: (id: number | null) => void
 }
 
 const INITIAL_STATE: State = {
