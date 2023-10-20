@@ -1,5 +1,5 @@
+import AdminDashboardUsers from '@/components/Dashboard/AdminDashboard'
 import AdminHeader from '@/components/Dashboard/AdminDashboard/Header/AdminHeader'
-import { UsersTable } from '@/components/Dashboard/AdminDashboard/Table/UsersTable'
 import { useAuthStore } from '@/store/useAuthStore'
 import { Navigate } from 'react-router-dom'
 
@@ -25,7 +25,7 @@ const AdminDashboard = () => {
     >
       <AdminHeader />
       <div className='pl-2 pr-5'>
-        <UsersTable />
+        <AdminDashboardUsers />
       </div>
     </div>
   )
